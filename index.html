@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>MihomoSaz | Subscription</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f4f7fb;color:#172033}
+.wrap{max-width:760px;margin:auto;padding:18px 14px 36px}
+header{background:#0f172a;color:#fff;border-radius:22px;padding:22px 18px;margin-bottom:14px;box-shadow:0 10px 28px #0001}
+h1{font-size:23px;margin:0 0 7px}.sub{color:#cbd5e1;font-size:13px;line-height:1.8}
+.search{width:100%;border:1px solid #dbe3ee;background:#fff;border-radius:16px;padding:14px 16px;font-size:15px;outline:none;margin-bottom:12px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}.tab{flex:1;border:0;border-radius:14px;padding:12px;background:#e7edf5;color:#475569;font-weight:700;cursor:pointer}.tab.active{background:#0f172a;color:#fff}
+.card{background:#fff;border:1px solid #e5eaf1;border-radius:18px;padding:14px;margin:9px 0;box-shadow:0 4px 15px #00000008}
+.name{font-weight:700;font-size:14px;word-break:break-word;margin-bottom:11px}.actions{display:flex;gap:8px}.btn{flex:1;text-align:center;text-decoration:none;border:0;border-radius:12px;padding:11px 8px;font-size:13px;font-weight:700;cursor:pointer}.open{background:#e8f0ff;color:#2456a6}.copy{background:#eef7ef;color:#21733a}
+.count{font-size:12px;color:#64748b;margin:4px 2px 10px}.empty{text-align:center;padding:35px;color:#64748b}
+footer{text-align:center;color:#94a3b8;font-size:11px;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>📡 MihomoSaz</h1><div class="sub">دریافت سریع Subscription برای Mihomo و Clash Meta</div></header>
+<input id="search" class="search" placeholder="🔎 جست‌وجوی کانفیگ..." autocomplete="off">
+<div class="tabs"><button class="tab active" data-type="simple">ساده</button><button class="tab" data-type="complex">پیشرفته</button></div>
+<div id="count" class="count"></div><main id="list"></main>
+<footer>به‌روزرسانی خودکار توسط GitHub Actions</footer>
+</div>
+<script>
+const base='https://raw.githubusercontent.com/Aghil-Echresh/MihomoSaz/main/Sublist/';
+const simple=["10ium/V2RayAggregator-Eternity.yml"];
+const complex=["10ium/HighSpeed.yaml"];
+let type='simple';
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function raw(name){return base+name.split('/').map(encodeURIComponent).join('/')}
+function render(){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ const arr=(type==='simple'?simple:complex).filter(x=>x.toLowerCase().includes(q));
+ document.getElementById('count').textContent=arr.length+' اشتراک';
+ document.getElementById('list').innerHTML=arr.map((n,i)=>{const u=raw(n);return '<article class="card"><div class="name">'+esc(n)+'</div><div class="actions"><a class="btn open" href="'+u+'" target="_blank" rel="noopener">باز کردن</a><button class="btn copy" onclick="copyUrl('+JSON.stringify(u)+')">کپی لینک</button></div></article>'}).join('')||'<div class="empty">اشتراکی پیدا نشد.</div>';
+}
+async function copyUrl(u){try{await navigator.clipboard.writeText(u);alert('لینک کپی شد ✅')}catch(e){prompt('لینک اشتراک:',u)}}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');type=b.dataset.type;render()});
+document.getElementById('search').oninput=render; render();
+</script>
+</body></html>
