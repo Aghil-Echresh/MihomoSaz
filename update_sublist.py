@@ -69,6 +69,42 @@ class ConfigProcessor:
         )
         return pattern.sub(rf'\g<1>{new_path}', template, count=1)
 
+    def _generate_aggregate(self, entries: List[Tuple[str, str]], template: str) -> None:
+        """ساخت یک کانفیگ واحد Mihomo/Clash Meta با همه Providerها."""
+        provider_blocks = []
+        provider_names = []
+        for idx, (_, url) in enumerate(entries, 1):
+            name = "proxy" if idx == 1 else f"p{idx:03d}"
+            provider_names.append(name)
+            provider_blocks.append(
+                f"  {name}:\n"
+                f"    type: http\n"
+                f"    url: {url}\n"
+                f"    interval: 86400\n"
+                f"    include-all: true\n"
+                f"    path: ./providers/{name}.yaml\n"
+                f"    health-check:\n"
+                f"      enable: true\n"
+                f"      interval: 1800\n"
+                f"      url: \"https://www.gstatic.com/generate_204\"\n"
+            )
+        section = "proxy-providers:\n\n" + "\n".join(provider_blocks) + "\n\nrules:"
+        modified = re.sub(r"proxy-providers:\s*\n.*?\n\s*rules:", section, template, count=1, flags=re.DOTALL)
+        use_block = "use:\n" + "".join(f"      - {name}\n" for name in provider_names)
+        modified = re.sub(r"use:\s*\n\s+- proxy\s*\n", use_block, modified)
+        with open(self.aggregate_path, "w", encoding="utf-8") as f:
+            f.write(modified)
+
+    def _write_status(self, simple_count: int, complex_count: int, total_count: int) -> None:
+        data = {
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "simple": simple_count,
+            "complex": complex_count,
+            "total": total_count
+        }
+        with open(self.status_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
     def _generate_readme(self, entries: List[Tuple[str, str]]) -> None:
         """تولید README با لینک مستقیم"""
         md_content = [
@@ -146,9 +182,11 @@ class ConfigProcessor:
             with open(output_path, "w", encoding="utf-8") as f:
                 f.write(modified)
 
-        # تولید README
+        # تولید README، اشتراک واحد و وضعیت
         self._generate_readme(merged_items)
-        logging.info("فایل‌ها با موفقیت ساخته شدند!")
+        self._generate_aggregate(merged_items, original_template)
+        self._write_status(len(simple_entries), len(complex_entries), len(merged_items))
+        logging.info("فایل‌ها، اشتراک واحد و وضعیت با موفقیت ساخته شدند!")
 
 if __name__ == "__main__":
     try:
