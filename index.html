@@ -7,40 +7,98 @@
 <title>MihomoSaz | Subscription</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f4f7fb;color:#172033}
-.wrap{max-width:760px;margin:auto;padding:18px 14px 36px}
-header{background:#0f172a;color:#fff;border-radius:22px;padding:22px 18px;margin-bottom:14px;box-shadow:0 10px 28px #0001}
-h1{font-size:23px;margin:0 0 7px}.sub{color:#cbd5e1;font-size:13px;line-height:1.8}
-.search{width:100%;border:1px solid #dbe3ee;background:#fff;border-radius:16px;padding:14px 16px;font-size:15px;outline:none;margin-bottom:12px}
-.tabs{display:flex;gap:8px;margin-bottom:12px}.tab{flex:1;border:0;border-radius:14px;padding:12px;background:#e7edf5;color:#475569;font-weight:700;cursor:pointer}.tab.active{background:#0f172a;color:#fff}
-.card{background:#fff;border:1px solid #e5eaf1;border-radius:18px;padding:14px;margin:9px 0;box-shadow:0 4px 15px #00000008}
-.name{font-weight:700;font-size:14px;word-break:break-word;margin-bottom:11px}.actions{display:flex;gap:8px}.btn{flex:1;text-align:center;text-decoration:none;border:0;border-radius:12px;padding:11px 8px;font-size:13px;font-weight:700;cursor:pointer}.open{background:#e8f0ff;color:#2456a6}.copy{background:#eef7ef;color:#21733a}
-.count{font-size:12px;color:#64748b;margin:4px 2px 10px}.empty{text-align:center;padding:35px;color:#64748b}
-footer{text-align:center;color:#94a3b8;font-size:11px;margin-top:18px}
+.wrap{max-width:760px;margin:auto;padding:14px 12px 34px}
+header{background:#0f172a;color:#fff;border-radius:22px;padding:21px 17px;margin-bottom:12px;box-shadow:0 10px 28px #0001}
+h1{font-size:22px;margin:0 0 6px}.sub{color:#cbd5e1;font-size:13px;line-height:1.8}
+.status{margin-top:13px;background:#172554;border-radius:14px;padding:10px 12px;font-size:12px;color:#dbeafe;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.dot{color:#4ade80;font-weight:700}.search{width:100%;border:1px solid #dbe3ee;background:#fff;border-radius:15px;padding:13px 15px;font-size:15px;outline:none;margin-bottom:10px}
+.hero{background:#fff;border:1px solid #dbe3ee;border-radius:18px;padding:13px;margin-bottom:11px}.hero-title{font-weight:800;font-size:14px;margin-bottom:6px}.hero-text{font-size:12px;color:#64748b;margin-bottom:10px}
+.tabs{display:flex;gap:7px;margin-bottom:10px}.tab{flex:1;border:0;border-radius:13px;padding:11px;background:#e7edf5;color:#475569;font-weight:700;cursor:pointer}.tab.active{background:#0f172a;color:#fff}
+.count{font-size:12px;color:#64748b;margin:4px 2px 9px}.card{background:#fff;border:1px solid #e5eaf1;border-radius:17px;padding:13px;margin:8px 0;box-shadow:0 4px 15px #00000008}
+.name{font-weight:700;font-size:13px;word-break:break-word;margin-bottom:10px}.actions{display:flex;gap:7px}.btn{flex:1;text-align:center;text-decoration:none;border:0;border-radius:11px;padding:10px 7px;font-size:12px;font-weight:700;cursor:pointer}.open{background:#e8f0ff;color:#2456a6}.copy{background:#eef7ef;color:#21733a}
+.all{background:#0f172a;color:#fff}.empty{text-align:center;padding:35px;color:#64748b}footer{text-align:center;color:#94a3b8;font-size:11px;margin-top:17px;line-height:1.8}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><h1>📡 MihomoSaz</h1><div class="sub">دریافت سریع Subscription برای Mihomo و Clash Meta</div></header>
-<input id="search" class="search" placeholder="🔎 جست‌وجوی کانفیگ..." autocomplete="off">
-<div class="tabs"><button class="tab active" data-type="simple">ساده</button><button class="tab" data-type="complex">پیشرفته</button></div>
-<div id="count" class="count"></div><main id="list"></main>
-<footer>به‌روزرسانی خودکار توسط GitHub Actions</footer>
+<header>
+<h1>📡 MihomoSaz</h1>
+<div class="sub">پنل ساده و موبایلی دریافت Subscription برای Mihomo و Clash Meta</div>
+<div class="status"><span><span class="dot">●</span> وضعیت: آماده</span><span id="updated">در حال دریافت وضعیت...</span></div>
+</header>
+
+<section class="hero">
+<div class="hero-title">📦 اشتراک واحد Mihomo / Clash Meta</div>
+<div class="hero-text">یک لینک واحد شامل Providerهای لیست‌های Simple و Complex</div>
+<div class="actions">
+<a class="btn all" id="allOpen" target="_blank" rel="noopener">باز کردن</a>
+<button class="btn copy" id="allCopy">کپی لینک</button>
 </div>
+</section>
+
+<input id="search" class="search" placeholder="🔎 جست‌وجوی لینک..." autocomplete="off">
+<div class="tabs">
+<button class="tab active" data-type="simple">🟢 Simple</button>
+<button class="tab" data-type="complex">🔵 Complex</button>
+</div>
+<div id="count" class="count">در حال بارگذاری...</div>
+<main id="list"></main>
+<footer>🔄 فهرست‌ها با GitHub Actions به‌روزرسانی می‌شوند<br>🌐 آماده استفاده روی GitHub Pages</footer>
+</div>
+
 <script>
 const base='https://raw.githubusercontent.com/Aghil-Echresh/MihomoSaz/main/Sublist/';
-const simple=["10ium/V2RayAggregator-Eternity.yml","10ium/hin-vpn-mix.yaml","66.42.50.118.yaml","Barabama/nodefree.yaml","Barabama/v2rayshare.yaml","Ruk1ng001.yaml","SnapdragonLee_clash_config_extra_US.yaml","darkvpn/xray_final.yaml","ermaozi.yaml","firefoxmmx2.yaml","free18.yaml","hamedp-71/N_sub_cheker_final.yaml","hamedp-71/Sub_Checker_Creator_final.yaml","hamedp-71/Trojan_hp.yaml","itsyebekhe/IR.yaml","itsyebekhe/mix.yaml","itsyebekhe/reality.yaml","itsyebekhe/xhttp.yaml","liketolivefree.yaml","maimengmeng/500.yaml","maimengmeng/AnyTLS.yaml","maimengmeng/custom.yaml","mfuu.yaml","peasoft.list/meta.yaml","peasoft.list/yaml","proxypool.link.yaml","pxypool.131433.yaml","ripaojiedian.yaml","roosterkid.yaml","snakem982-clash/meta-2.yaml","snakem982-clash/meta.yaml","ts-sf.yaml","tt.vg.yaml","MatinGhanbari_v2ray-configs-super-sub.yaml","ainita.yaml","Telegram_Eag1e_YT.yaml","irdevs_dns/subfreeiran_amirrankcat.yaml","MrBihal/Meli.yaml","danesh1118.yaml","server_channel_pro/vpnmarket.yaml","gheychiamoozesh/list_mix_count_500_shuffle_false_unique_false.yaml","peweza_frank-vpl_mix.yaml","igareck/russia_BLACK_mix.yaml","igareck/russia_WHITE_mix.yaml","whitedns.yaml","\r"];
-const complex=["10ium/HighSpeed.yaml","10ium/V2Hub3_reality.yaml","10ium/V2Hub3_shadowsocks.yaml","10ium/V2Hub3_trojan.yaml","10ium/V2Hub3_vmess.yaml","10ium/multi-proxy-config-fetcher.yaml","10ium/ss_iran.yaml","10ium/trojan_iran.yaml","10ium/vmess_iran.yaml","FreedomGuard/Finder_configs.yaml","ebrasha/lite.yaml","namira.dev.yaml","@redfree8.yaml","Ashkan-m.yaml","Leon406-hysteria2.yaml","MahsaNetConfigTopic.yaml","NiREvil_SSTime.yaml","ResistalProxy_server.yaml","Surfboardv2ray/IR.yaml","Surfboardv2ray/US.yaml","Surfboardv2ray/ipv6.yaml","Surfboardv2ray/mahsa.yaml","Surfboardv2ray/random.yaml","Surfboardv2ray/udp.yaml","liketolivefree_sub.yaml","muma16fx.netlify.app.yaml","peasoft_list_raw.yaml","qiaomenzhuanfx.netlify.app.yaml","rb360full_Reza/2.yaml","robin.nscl.ir.yaml","roosterkid/V2RAY_BASE64.yaml","shadowmere.xyz.yaml","tristan-deng_MyNodes.yaml","amiralter_config_lite.yaml","arshiacomplus/v2rayExtractor_ss.yaml","arshiacomplus/v2rayExtractor_trojan.yaml","arshiacomplus/v2rayExtractor_vmess.yaml","arshiacomplus/v2rayExtractor_vless.yaml","Mahdi0024/ProxyCollector.yaml","MhdiTaheri/V2rayCollector.yaml","Farid-Karimi/Config_Collector.yaml","subrostunnel_vercel_wl.yaml","ShadowException/VPN_cat.yaml","whoahaow/rjsxrd_bypass_all.yaml","masir-sefid/masir_sefid.yaml","v2hub-configs/Sub_AutoUpdate.yaml","igareck/BLACK_VLESS_RUS_mobile.yaml"];
-let type='simple';
-const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const allUrl=base+'MihomoSaz-All.yaml';
+let data={simple:[],complex:[]}, type='simple';
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function raw(name){return base+name.split('/').map(encodeURIComponent).join('/')}
+function parse(txt){return txt.split(/\r?\n/).map(x=>x.trim()).filter(x=>x&&x.includes('|')).map(x=>x.split('|')[0].trim()).filter(Boolean)}
+function fmtDate(v){try{return new Intl.DateTimeFormat('fa-IR',{dateStyle:'medium',timeStyle:'short'}).format(new Date(v))}catch(e){return v}}
+
+async function copyUrl(u){
+ try{await navigator.clipboard.writeText(u);alert('لینک کپی شد ✅')}
+ catch(e){prompt('لینک اشتراک:',u)}
+}
+
 function render(){
  const q=document.getElementById('search').value.trim().toLowerCase();
- const arr=(type==='simple'?simple:complex).filter(x=>x.toLowerCase().includes(q));
- document.getElementById('count').textContent=arr.length+' اشتراک';
- document.getElementById('list').innerHTML=arr.map((n,i)=>{const u=raw(n);return '<article class="card"><div class="name">'+esc(n)+'</div><div class="actions"><a class="btn open" href="'+u+'" target="_blank" rel="noopener">باز کردن</a><button class="btn copy" onclick="copyUrl('+JSON.stringify(u)+')">کپی لینک</button></div></article>'}).join('')||'<div class="empty">اشتراکی پیدا نشد.</div>';
+ const arr=data[type].filter(x=>x.toLowerCase().includes(q));
+ document.getElementById('count').textContent=arr.length+' لینک از '+data[type].length;
+ document.getElementById('list').innerHTML=arr.map(n=>{
+   const u=raw(n);
+   return '<article class="card"><div class="name">'+esc(n)+'</div><div class="actions"><a class="btn open" href="'+u+'" target="_blank" rel="noopener">باز کردن</a><button class="btn copy" onclick="copyUrl('+JSON.stringify(u)+')">کپی لینک</button></div></article>'
+ }).join('')||'<div class="empty">لینکی پیدا نشد.</div>';
 }
-async function copyUrl(u){try{await navigator.clipboard.writeText(u);alert('لینک کپی شد ✅')}catch(e){prompt('لینک اشتراک:',u)}}
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');type=b.dataset.type;render()});
-document.getElementById('search').oninput=render; render();
+
+async function load(){
+ try{
+   const [s,c,status]=await Promise.all([
+     fetch('Simple_URL_List.txt?'+Date.now()).then(r=>r.text()),
+     fetch('Complex_URL_list.txt?'+Date.now()).then(r=>r.text()),
+     fetch('status.json?'+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null)
+   ]);
+   data.simple=parse(s); data.complex=parse(c);
+   if(status?.updated_at){
+     document.getElementById('updated').textContent='آخرین آپدیت: '+fmtDate(status.updated_at);
+   }else{
+     document.getElementById('updated').textContent='آخرین آپدیت: نامشخص';
+   }
+   render();
+ }catch(e){
+   document.getElementById('count').textContent='خطا در دریافت فهرست';
+   document.getElementById('list').innerHTML='<div class="empty">اتصال به فهرست‌ها ناموفق بود. صفحه را دوباره باز کنید.</div>';
+ }
+}
+
+document.getElementById('allOpen').href=allUrl;
+document.getElementById('allCopy').onclick=()=>copyUrl(allUrl);
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active'); type=b.dataset.type; render();
+});
+document.getElementById('search').oninput=render;
+load();
 </script>
-</body></html>
+</body>
+</html>
