@@ -4,6 +4,10 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'status.json'
+      - 'Simple_URL_List.txt'
+      - 'Complex_URL_list.txt'
+      - 'Sublist/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
