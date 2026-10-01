@@ -1,5 +1,7 @@
 name: 🔄 به‌روزرسانی خودکار
 on:
+  schedule:
+    - cron: '17 2 * * *'
   push:
     paths:
       - 'Complex_URL_list.txt'
@@ -30,4 +32,5 @@ jobs:
           add: |
             Sublist/*
             README.md
+            status.json
             update.log
